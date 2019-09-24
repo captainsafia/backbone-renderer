@@ -4,10 +4,15 @@ import Backbone from 'backbone';
 import * as Widgets from "@jupyter-widgets/controls";
 
 class Wrapper extends React.Component {
-    render() {
-        const widget = new Widgets.DatePickerView({ model: this.props.model });
+    hostRef = React.createRef();
+    componentDidMount() {
+const widget = new Widgets.DatePickerView({ model: this.props.model, el: this.hostRef.current });
+        widget.render();
         console.log(widget);
-        return <div>{this.props.model.model_name}</div>;
+    }
+    render() {
+
+        return <div ref={this.hostRef}/>;
     }
 }
 
@@ -16,6 +21,8 @@ const model = new Backbone.Model({
             model_module: '@jupyter-widgets/controls',
             model_module_version: '1.0.0',
             model_id: 'test',
+            description: 'bah',
+            value: new Date(),
         });
 
 class App extends React.Component {
